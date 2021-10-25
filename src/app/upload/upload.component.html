@@ -1,0 +1,16 @@
+<div class="container-fluid gx-0">
+    <div class="row row-cols-1 gx-0">
+        <div class="col input-group-lg">
+            <input class="form-control" type="file" (change)="onChange($event)">
+        </div>
+        <div class="col input-group-lg">
+            <input maxLength=255 class="form-control text-break" [(ngModel)]="name" placeholder="Name" type="text">
+        </div>
+        <div class="col input-group-lg">
+            <textarea maxLength=3000 class="form-control" [(ngModel)]="description" placeholder="Description" type="text"></textarea>
+        </div>
+        <div class="col d-grid input-group-lg">
+            <button (click)="onUpload()" class="btn btn-block btn-success">Upload</button>
+        </div>
+    </div>
+</div>

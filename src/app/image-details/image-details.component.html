@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row-cols-1">
+        <div class="col-12">
+            <img src={{url}} class="mx-auto img-thumbnail" style="display: block;">
+            <!--<input maxLength=255 class="form-control text-break" [(ngModel)]="name" placeholder="Name" type="text">-->
+        </div>
+        <div class="col">
+            <label for="imageName">Name:</label>
+            <div *ngIf="isEditing"> 
+                <input class="input-group" maxLength=255 type="text" id="imageName" [(ngModel)]=image.name>
+            </div>
+            <div *ngIf="!isEditing"> 
+                <input class="input-group" maxLength=255 type="text" id="imageName" value={{image.name}} disabled>
+            </div>
+
+            <label for="imageDate">Date:</label>
+            <div *ngIf="isEditing"> 
+                <input class="input-group" type="datetime-local" id="imageDate" [(ngModel)]=date>
+            </div>
+            <div *ngIf="!isEditing"> 
+                <input class="input-group" type="datetime-local" id="imageDate" value={{date}} disabled>
+            </div>
+
+            <label for="imageDescription">Description:</label>
+            <div *ngIf="isEditing"> 
+                <textarea class="input-group" maxLength=255 type="text" id="imageDescription" [(ngModel)]=image.description></textarea>
+            </div>
+            <div *ngIf="!isEditing"> 
+                <textarea class="input-group" maxLength=255 type="text" id="imageDescription" value={{image.description}} disabled></textarea>
+            </div>
+
+            <label for="imageTags">Tags:</label>
+            <div *ngIf="isEditing"> 
+                <div *ngFor="let tag of image.tags">
+                    <input maxLength=255 type="text" id="imageTags" [(ngModel)]=tag.name>
+                </div>
+            </div>
+            <div *ngIf="!isEditing"> 
+                <div *ngFor="let tag of image.tags">
+                    <input maxLength=255 type="text" id="imageTags" value={{tag.name}} disabled>
+                </div>
+            </div>
+            <button class="btn btn-primary" (click)="onClick()">Edit</button>
+            <button class="btn btn-primary" (click)="onShow()">Print out the image</button>
+        </div>
+    </div>
+</div>

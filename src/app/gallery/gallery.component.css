@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+}
+img {
+    height: 100%;
+    width: 100%;
+}
+.square {
+    max-height: 4rem;
+    object-fit: contain;
+    padding: 0.1rem;
+    background-color: rgb(148, 148, 148);
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    max-width: 5rem;
+}
