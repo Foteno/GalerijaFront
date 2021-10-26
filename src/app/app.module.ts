@@ -13,6 +13,8 @@ import { DeleteComponent } from './delete/delete.component';
 import { ImageDetailsComponent } from './image-details/image-details.component';
 import { FormsModule } from '@angular/forms';
 
+// FIXME ar naudojamas jw-angular-pagination library šitame projekte?
+
 @NgModule({
   declarations: [
     AppComponent,

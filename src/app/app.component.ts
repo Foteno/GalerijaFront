@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// FIXME nenaudojamas importas
 
 @Component({
   selector: 'app-root',
