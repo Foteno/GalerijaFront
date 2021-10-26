@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { ImagePreviewDTO } from './ImagePreviewDTO';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GalleryService {
+
+  constructor(private http: HttpClient) { }
   
-  upload(file: File, name: string, date: string, description: string): Observable<any> {
-    let array = new Array();
-    array.push("Cats");
-    array.push("Dogs");
+  upload(file: File, name: string, date: string, description: string, array: Array<string>): Observable<any> {
     const data: FormData = new FormData();
     data.append('image', file, file.name);
     data.append('name', name);
     data.append('date', date);
     data.append('description', description);
-    array.forEach(element => {
+    array.forEach((element: string) => {
       data.append('tags', element);
     });
     return this.http.post('http://localhost:8080/image', data);
@@ -37,12 +34,16 @@ export class GalleryService {
     return this.http.get('http://localhost:8080/image/details/' + uuid);
   }
 
-  updateImage(uuid: string): Observable<any> {
+  updateImage(file: File, name: string, date: string, description: string, uuid: string, array: Array<string>): Observable<any> {
     const data: FormData = new FormData();
+    data.append('image', file, file.name);
+    data.append('name', name);
+    data.append('date', date);
+    data.append('description', description);
+    array.forEach((element: string) => {
+      data.append('tags', element);
+    });
     
-    return this.http.put('http://localhost:8080/image', (body: string) => {});
+    return this.http.put('http://localhost:8080/image/details/' + uuid, data);
   }
-  
-    
-  constructor(private http: HttpClient) { }
 }

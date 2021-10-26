@@ -32,7 +32,6 @@ export class GalleryComponent implements OnInit, AfterViewInit {
     if (event.pageIndex == (event.length/event.pageSize) - 1) {
       this.download(event.pageIndex + 1, event.pageSize);
     }
-    console.log(event);
   }
 
   constructor(
