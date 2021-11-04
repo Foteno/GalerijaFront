@@ -9,19 +9,24 @@ import { AppComponent } from './app.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UploadComponent } from './upload/upload.component';
-import { DeleteComponent } from './delete/delete.component';
 import { ImageDetailsComponent } from './image-details/image-details.component';
 import { FormsModule } from '@angular/forms';
+import { authInterceptorProviders } from './_helpers/auth-interceptor';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SharedModuleModule } from './shared-module/shared-module.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     GalleryComponent,
     UploadComponent,
-    DeleteComponent,
-    ImageDetailsComponent
+    ImageDetailsComponent,
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
+    SharedModuleModule,
     BrowserModule,
     MatPaginatorModule,
     HttpClientModule,
@@ -30,7 +35,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

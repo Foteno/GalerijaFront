@@ -21,13 +21,25 @@ export class GalleryService {
     return this.http.post('http://localhost:8080/image', data);
   }
 
-  downloadData(page: number, size: number): Observable<any> {
-    return this.http.get('http://localhost:8080/image', {
+  downloadData(page: number, size: number, name: string, isTag: boolean): Observable<any> {
+    if (isTag) {
+      return this.http.get('http://localhost:8080/image', {
       params: {
         page: page,
-        size: size
-      }
-    });
+        size: size,
+        tag: name
+        }
+      });
+    } else {
+      return this.http.get('http://localhost:8080/image', {
+      params: {
+        page: page,
+        size: size,
+        name: name
+        }
+      });
+    }
+    
   }
 
   downloadFullImage(uuid: string): Observable<any> {

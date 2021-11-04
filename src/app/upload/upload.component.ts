@@ -12,6 +12,7 @@ export class UploadComponent implements OnInit {
   name: string = "";
   date: string = "";
   description: string = "";
+  array: Array<{name: ""}> = new Array<{name: ""}>();//original way of doing ngmodel twoway binding
   constructor(
     private galleryService: GalleryService
   ) { }
@@ -21,17 +22,27 @@ export class UploadComponent implements OnInit {
     this.name = this.file.name;
     this.date = (new Date(this.file.lastModified)).toLocaleDateString('lt-LT', {year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute:'numeric', second:'numeric'});
   }
+
+  addTag(): void {
+    this.array.push({name: ""});
+  }
+
   onUpload() {
     if (this.file.name == "") {
       //add popup, alerting about no file chosen
       console.log(this.file);
     } else {
-      this.galleryService.upload(this.file, this.name, this.date, this.description).subscribe();
+      let tagNames = new Array<string>();
+      this.array.forEach((element: {name: string}) => {
+        tagNames.push(element.name);
+      });
+      this.galleryService.upload(this.file, this.name, this.date, this.description, tagNames).subscribe();
     }
   }
 
   ngOnInit(): void {
     this.file = new File([""], "");
+    this.array.push({name: ""});
   }
 
 }

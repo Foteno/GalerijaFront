@@ -9,6 +9,16 @@
         <div class="col input-group-lg">
             <textarea maxLength=3000 class="form-control" [(ngModel)]="description" placeholder="Description" type="text"></textarea>
         </div>
+        
+        <div class="col input-group-lg">
+            <h2 class="my-0">Tags:</h2>
+        </div>
+        <div class="col input-group-md" *ngFor="let tag of array">
+            <input maxLength=255 class="form-control text-break" type="text" [(ngModel)]="tag.name">
+        </div>
+        <div class="ms-3">
+            <img class="img" role="button" (click)="addTag()" style="width: 35px;" src="../assets/plus.png">
+        </div>
         <div class="col d-grid input-group-lg">
             <button (click)="onUpload()" class="btn btn-block btn-success">Upload</button>
         </div>

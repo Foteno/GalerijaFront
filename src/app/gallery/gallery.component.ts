@@ -1,11 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { GalleryService } from '../gallery.service';
-import { Location } from '@angular/common'; 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ImagePreviewDTO } from '../ImagePreviewDTO';
-import { merge, Observable } from 'rxjs';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 
 @Component({
@@ -18,11 +16,15 @@ export class GalleryComponent implements OnInit, AfterViewInit {
   pageIndex: number = 0;
   pageSize: number = 0;
 
-  string: string = '';
+  searchStringNameDescription: string = "";
+  tempStringNameDescription: string = "";
+
+  searchStringTag: string = "";
+  tempStringTag: string = "";
+
   images: ImagePreviewDTO[] = [];
   displayedColumns: string[] = ['url', 'name', 'description'];
   dataSource = new MatTableDataSource<ImagePreviewDTO>([]);
-  thumb: SafeUrl[] = [];
 
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
@@ -30,16 +32,13 @@ export class GalleryComponent implements OnInit, AfterViewInit {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     if (event.pageIndex == (event.length/event.pageSize) - 1) {
-      this.download(event.pageIndex + 1, event.pageSize);
+      this.download(event.pageIndex + 1, event.pageSize, this.searchStringNameDescription, false);
     }
   }
 
-  constructor(
-    private galleryService: GalleryService,
-    private location: Location
-    ) { }
+  constructor(private galleryService: GalleryService, public tokenStorageService: TokenStorageService) { }
   ngAfterViewInit(): void {
-    this.download(this.pageIndex, this.paginator.pageSize * 2);
+    this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringNameDescription, false);
   }
 
   ngOnInit() {
@@ -50,15 +49,30 @@ export class GalleryComponent implements OnInit, AfterViewInit {
     return image.uuid;
   }
 
+  loadByNameDescription(): void {
+    this.searchStringNameDescription = this.tempStringNameDescription;
+    this.images = [];
+    this.paginator.pageIndex = 0;
+    this.pageIndex = 0;
+    this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringNameDescription, false);
+  }
 
-  download(page: number, size: number): void {
-    this.galleryService.downloadData(page, size).subscribe((mess: any) => {
+  loadByTag(): void {
+    this.searchStringTag = this.tempStringTag;
+    this.images = [];
+    this.paginator.pageIndex = 0;
+    this.pageIndex = 0;
+    this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringTag, true);
+  }
+
+
+  download(page: number, size: number, name: string, isTag: boolean): void {
+    this.galleryService.downloadData(page, size, name, isTag).subscribe((mess: any) => {
       let string: string[] = mess.content;
       string.forEach((element: any) => {
         this.images.push({ url: this.PATH + element.uuid + "small", name: element.name, description: element.description, uuid: element.uuid});
       });
-    })
-      .add(() => {
+    }).add(() => {
         this.dataSource.data = this.images;
       });
   }

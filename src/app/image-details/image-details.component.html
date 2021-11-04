@@ -1,8 +1,13 @@
 <div class="container">
     <div class="row-cols-1">
         <div class="col-12">
-            <img src={{url}} class="mx-auto img-thumbnail" style="display: block;">
-            <!--<input maxLength=255 class="form-control text-break" [(ngModel)]="name" placeholder="Name" type="text">-->
+            <img [src]="url+'?token='+tokenStorageService.getToken()" class="mx-auto img-thumbnail" style="display: block;">
+            <div *ngIf="fileChosen">
+                <label>File currently chosen: {{this.file.name}}</label>
+            </div>
+            <div *ngIf="isEditing">
+                <input class="form-control" type="file" (change)="onChange($event)">
+            </div>
         </div>
         <div class="col">
             <label for="imageName">Name:</label>
@@ -33,6 +38,10 @@
             <div *ngIf="isEditing"> 
                 <div *ngFor="let tag of image.tags">
                     <input maxLength=255 type="text" id="imageTags" [(ngModel)]=tag.name>
+                    <img class="img" role="button" src="../assets/delete.png" style="width: 20px;" (click)="deleteTag(tag)">
+                </div>
+                <div>
+                    <img class="img" role="button" src="../assets/plus.png" style="width: 20px;" (click)="addTag()">
                 </div>
             </div>
             <div *ngIf="!isEditing"> 
@@ -40,8 +49,12 @@
                     <input maxLength=255 type="text" id="imageTags" value={{tag.name}} disabled>
                 </div>
             </div>
-            <button class="btn btn-primary" (click)="onClick()">Edit</button>
-            <button class="btn btn-primary" (click)="onShow()">Print out the image</button>
+            <div class="row-cols-2 text-center">
+                <button class="btn btn-primary" (click)="onClick()">Edit</button>
+            </div>
+            <div class="row-cols-2 text-center">
+                <button class="btn btn-primary  mb-5" (click)="doUpdate()">Save</button>
+            </div>
         </div>
     </div>
 </div>
