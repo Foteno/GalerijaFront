@@ -22,7 +22,7 @@ export class GalleryComponent implements OnInit, AfterViewInit {
   searchStringTag: string = "";
   tempStringTag: string = "";
 
-  images: ImagePreviewDTO[] = [];
+  imagePreviewDTOs: ImagePreviewDTO[] = [];
   displayedColumns: string[] = ['url', 'name', 'description'];
   dataSource = new MatTableDataSource<ImagePreviewDTO>([]);
 
@@ -45,13 +45,9 @@ export class GalleryComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  getClicked (image: ImagePreviewDTO): string {
-    return image.uuid;
-  }
-
   loadByNameDescription(): void {
     this.searchStringNameDescription = this.tempStringNameDescription;
-    this.images = [];
+    this.imagePreviewDTOs = [];
     this.paginator.pageIndex = 0;
     this.pageIndex = 0;
     this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringNameDescription, false);
@@ -59,7 +55,7 @@ export class GalleryComponent implements OnInit, AfterViewInit {
 
   loadByTag(): void {
     this.searchStringTag = this.tempStringTag;
-    this.images = [];
+    this.imagePreviewDTOs = [];
     this.paginator.pageIndex = 0;
     this.pageIndex = 0;
     this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringTag, true);
@@ -67,14 +63,13 @@ export class GalleryComponent implements OnInit, AfterViewInit {
 
 
   download(page: number, size: number, name: string, isTag: boolean): void {
-    this.galleryService.downloadData(page, size, name, isTag).subscribe((mess: any) => {
-      let string: string[] = mess.content;
-      string.forEach((element: any) => {
-        this.images.push({ url: this.PATH + element.uuid + "small", name: element.name, description: element.description, uuid: element.uuid});
+    this.galleryService.downloadData(page, size, name, isTag).subscribe((response: any) => {
+      console.log(response);
+      response.content.forEach((element: any) => {
+        this.imagePreviewDTOs.push({ url: this.PATH + element.uuid + "small", name: element.name, description: element.description, uuid: element.uuid});
       });
-    }).add(() => {
-        this.dataSource.data = this.images;
-      });
+      this.dataSource.data = this.imagePreviewDTOs;
+    });
   }
 
 

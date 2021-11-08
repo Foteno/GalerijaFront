@@ -25,7 +25,7 @@ export class ImageDetailsComponent implements OnInit {
     public tokenStorageService: TokenStorageService
   ) { }
 
-  onClick(): void {
+  toggleEdit(): void {
     this.isEditing = !this.isEditing;
     this.image.name = this.imageStatic.name;
     this.image.description = this.imageStatic.description;
@@ -48,9 +48,7 @@ export class ImageDetailsComponent implements OnInit {
       array.push(element.name);
     });
     this.galleryService.updateImage(this.file, this.image.name, this.image.date,
-      this.image.description, this.image.uuid, array).subscribe(mess => {
-        console.log(mess);
-    });
+      this.image.description, this.image.uuid, array).subscribe();
   }
 
   onChange(event: any): void {

@@ -11,29 +11,17 @@
         </div>
         <div class="col">
             <label for="imageName">Name:</label>
-            <div *ngIf="isEditing"> 
-                <input class="input-group" maxLength=255 type="text" id="imageName" [(ngModel)]=image.name>
+            <div> 
+                <input class="input-group" maxLength=255 type="text" id="imageName" [(ngModel)]=image.name [disabled]="!isEditing">
             </div>
-            <div *ngIf="!isEditing"> 
-                <input class="input-group" maxLength=255 type="text" id="imageName" value={{image.name}} disabled>
-            </div>
-
             <label for="imageDate">Date:</label>
-            <div *ngIf="isEditing"> 
-                <input class="input-group" type="datetime-local" id="imageDate" [(ngModel)]=date>
+            <div>
+                <input class="input-group" type="datetime-local" id="imageDate" [(ngModel)]=date [disabled]="!isEditing">
             </div>
-            <div *ngIf="!isEditing"> 
-                <input class="input-group" type="datetime-local" id="imageDate" value={{date}} disabled>
-            </div>
-
             <label for="imageDescription">Description:</label>
-            <div *ngIf="isEditing"> 
-                <textarea class="input-group" maxLength=255 type="text" id="imageDescription" [(ngModel)]=image.description></textarea>
+            <div> 
+                <textarea class="input-group" maxLength=255 type="text" id="imageDescription" [(ngModel)]=image.description [disabled]="!isEditing"></textarea>
             </div>
-            <div *ngIf="!isEditing"> 
-                <textarea class="input-group" maxLength=255 type="text" id="imageDescription" value={{image.description}} disabled></textarea>
-            </div>
-
             <label for="imageTags">Tags:</label>
             <div *ngIf="isEditing"> 
                 <div *ngFor="let tag of image.tags">
@@ -50,7 +38,7 @@
                 </div>
             </div>
             <div class="row-cols-2 text-center">
-                <button class="btn btn-primary" (click)="onClick()">Edit</button>
+                <button class="btn btn-primary" (click)="toggleEdit()">Edit</button>
             </div>
             <div class="row-cols-2 text-center">
                 <button class="btn btn-primary  mb-5" (click)="doUpdate()">Save</button>

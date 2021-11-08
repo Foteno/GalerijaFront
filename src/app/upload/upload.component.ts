@@ -8,7 +8,7 @@ import { GalleryService } from '../gallery.service';
 })
 export class UploadComponent implements OnInit {
   
-  file!: File;
+  file: File = new File([""], "");
   name: string = "";
   date: string = "";
   description: string = "";
@@ -28,10 +28,7 @@ export class UploadComponent implements OnInit {
   }
 
   onUpload() {
-    if (this.file.name == "") {
-      //add popup, alerting about no file chosen
-      console.log(this.file);
-    } else {
+    if (this.file.name != "") {
       let tagNames = new Array<string>();
       this.array.forEach((element: {name: string}) => {
         tagNames.push(element.name);
@@ -41,7 +38,6 @@ export class UploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.file = new File([""], "");
     this.array.push({name: ""});
   }
 

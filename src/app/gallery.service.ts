@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ImageDetailDTO } from './ImageDetailDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class GalleryService {
 
   constructor(private http: HttpClient) { }
   
-  upload(file: File, name: string, date: string, description: string, array: Array<string>): Observable<any> {
+  upload(file: File, name: string, date: string, description: string, array: Array<string>): Observable<FormData> {
     const data: FormData = new FormData();
     data.append('image', file, file.name);
     data.append('name', name);
@@ -18,10 +19,10 @@ export class GalleryService {
     array.forEach((element: string) => {
       data.append('tags', element);
     });
-    return this.http.post('http://localhost:8080/image', data);
+    return this.http.post<FormData>('http://localhost:8080/image', data);
   }
 
-  downloadData(page: number, size: number, name: string, isTag: boolean): Observable<any> {
+  downloadData(page: number, size: number, name: string, isTag: boolean): Observable<Object> {
     if (isTag) {
       return this.http.get('http://localhost:8080/image', {
       params: {
@@ -42,11 +43,11 @@ export class GalleryService {
     
   }
 
-  downloadFullImage(uuid: string): Observable<any> {
-    return this.http.get('http://localhost:8080/image/details/' + uuid);
+  downloadFullImage(uuid: string): Observable<ImageDetailDTO> {
+    return this.http.get<ImageDetailDTO>('http://localhost:8080/image/details/' + uuid);
   }
 
-  updateImage(file: File, name: string, date: string, description: string, uuid: string, array: Array<string>): Observable<any> {
+  updateImage(file: File, name: string, date: string, description: string, uuid: string, array: Array<string>): Observable<FormData> {
     const data: FormData = new FormData();
     data.append('image', file, file.name);
     data.append('name', name);
@@ -56,6 +57,6 @@ export class GalleryService {
       data.append('tags', element);
     });
     
-    return this.http.put('http://localhost:8080/image/details/' + uuid, data);
+    return this.http.put<FormData>('http://localhost:8080/image/details/' + uuid, data);
   }
 }
