@@ -12,15 +12,15 @@ import { TokenStorageService } from '../_services/token-storage.service';
   styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit, AfterViewInit {
-  readonly PATH = "http://localhost:8080/image/";
+  readonly PATH = 'http://localhost:8080/image/';
   pageIndex: number = 0;
   pageSize: number = 0;
 
-  searchStringNameDescription: string = "";
-  tempStringNameDescription: string = "";
+  searchStringNameDescription: string = '';
+  tempStringNameDescription: string = '';
 
-  searchStringTag: string = "";
-  tempStringTag: string = "";
+  searchStringTag: string = '';
+  tempStringTag: string = '';
 
   imagePreviewDTOs: ImagePreviewDTO[] = [];
   displayedColumns: string[] = ['url', 'name', 'description'];
@@ -32,13 +32,13 @@ export class GalleryComponent implements OnInit, AfterViewInit {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     if (event.pageIndex == (event.length/event.pageSize) - 1) {
-      this.download(event.pageIndex + 1, event.pageSize, this.searchStringNameDescription, false);
+      this.downloadAndSetTable(event.pageIndex + 1, event.pageSize, this.searchStringNameDescription, false);
     }
   }
 
   constructor(private galleryService: GalleryService, public tokenStorageService: TokenStorageService) { }
   ngAfterViewInit(): void {
-    this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringNameDescription, false);
+    this.downloadAndSetTable(this.pageIndex, this.paginator.pageSize * 2, this.searchStringNameDescription, false);
   }
 
   ngOnInit() {
@@ -47,26 +47,27 @@ export class GalleryComponent implements OnInit, AfterViewInit {
 
   loadByNameDescription(): void {
     this.searchStringNameDescription = this.tempStringNameDescription;
-    this.imagePreviewDTOs = [];
-    this.paginator.pageIndex = 0;
-    this.pageIndex = 0;
-    this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringNameDescription, false);
+    this.resetTable();
+    this.downloadAndSetTable(this.pageIndex, this.paginator.pageSize * 2, this.searchStringNameDescription, false);
   }
 
   loadByTag(): void {
     this.searchStringTag = this.tempStringTag;
+    this.resetTable();
+    this.downloadAndSetTable(this.pageIndex, this.paginator.pageSize * 2, this.searchStringTag, true);
+  }
+
+  private resetTable() {
     this.imagePreviewDTOs = [];
     this.paginator.pageIndex = 0;
     this.pageIndex = 0;
-    this.download(this.pageIndex, this.paginator.pageSize * 2, this.searchStringTag, true);
   }
 
-
-  download(page: number, size: number, name: string, isTag: boolean): void {
+  downloadAndSetTable(page: number, size: number, name: string, isTag: boolean): void {
     this.galleryService.downloadData(page, size, name, isTag).subscribe((response: any) => {
       console.log(response);
       response.content.forEach((element: any) => {
-        this.imagePreviewDTOs.push({ url: this.PATH + element.uuid + "small", name: element.name, description: element.description, uuid: element.uuid});
+        this.imagePreviewDTOs.push({ url: this.PATH + element.uuid + 'small', name: element.name, description: element.description, uuid: element.uuid});
       });
       this.dataSource.data = this.imagePreviewDTOs;
     });

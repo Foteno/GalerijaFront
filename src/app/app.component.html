@@ -3,19 +3,19 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="row">
-                <button type="button" class="btn btn-primary btn-lg btn-block" style="border-color: rgb(46, 46, 255); border-width: 0.1rem;" routerLink="upload">Upload</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" style="border-color: rgb(46, 46, 255); border-width: 0.1rem;" routerLink="/upload">Upload</button>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="row">
-                <button type="button" class="btn btn-primary btn-lg btn-block" style="border-color: rgb(46, 46, 255); border-width: 0.1rem;" routerLink="gallery">Gallery</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" style="border-color: rgb(46, 46, 255); border-width: 0.1rem;" routerLink="/gallery">Gallery</button>
             </div>
         </div>
     </div>
 </div>
 <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
     <li class="nav-item">
-      <a href class="nav-link" (click)="logout()">LogOut</a>
+        <a href class="nav-link" (click)="logout()">LogOut</a>
     </li>
-  </ul>
+</ul>
 <router-outlet></router-outlet>

@@ -9,8 +9,7 @@ import { ImageDetailDTO } from './ImageDetailDTO';
 export class GalleryService {
 
   constructor(private http: HttpClient) { }
-  
-  upload(file: File, name: string, date: string, description: string, array: Array<string>): Observable<FormData> {
+  private createFormData(file: File, name: string, date: string, description: string, array: Array<string>) {
     const data: FormData = new FormData();
     data.append('image', file, file.name);
     data.append('name', name);
@@ -19,8 +18,14 @@ export class GalleryService {
     array.forEach((element: string) => {
       data.append('tags', element);
     });
+    return data;
+  }
+
+  upload(file: File, name: string, date: string, description: string, array: Array<string>): Observable<FormData> {
+    const data = this.createFormData(file, name, date, description, array);
     return this.http.post<FormData>('http://localhost:8080/image', data);
   }
+
 
   downloadData(page: number, size: number, name: string, isTag: boolean): Observable<Object> {
     if (isTag) {
@@ -40,7 +45,7 @@ export class GalleryService {
         }
       });
     }
-    
+
   }
 
   downloadFullImage(uuid: string): Observable<ImageDetailDTO> {
@@ -48,15 +53,7 @@ export class GalleryService {
   }
 
   updateImage(file: File, name: string, date: string, description: string, uuid: string, array: Array<string>): Observable<FormData> {
-    const data: FormData = new FormData();
-    data.append('image', file, file.name);
-    data.append('name', name);
-    data.append('date', date);
-    data.append('description', description);
-    array.forEach((element: string) => {
-      data.append('tags', element);
-    });
-    
+    const data = this.createFormData(file, name, date, description, array);
     return this.http.put<FormData>('http://localhost:8080/image/details/' + uuid, data);
   }
 }

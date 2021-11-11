@@ -1,7 +1,7 @@
 <div class="container-fluid gx-0">
     <div class="row row-cols-1 gx-0">
         <div class="col input-group-lg">
-            <input class="form-control" type="file" (change)="onChange($event)">
+            <input class="form-control" type="file" (change)="onFileChoice($event)">
         </div>
         <div class="col input-group-lg">
             <input maxLength=255 class="form-control text-break" [(ngModel)]="name" placeholder="Name" type="text">
@@ -9,7 +9,7 @@
         <div class="col input-group-lg">
             <textarea maxLength=3000 class="form-control" [(ngModel)]="description" placeholder="Description" type="text"></textarea>
         </div>
-        
+
         <div class="col input-group-lg">
             <h2 class="my-0">Tags:</h2>
         </div>
@@ -17,7 +17,7 @@
             <input maxLength=255 class="form-control text-break" type="text" [(ngModel)]="tag.name">
         </div>
         <div class="ms-3">
-            <img class="img" role="button" (click)="addTag()" style="width: 35px;" src="../assets/plus.png">
+            <img class="img" role="button" (click)="addTag()" style="width: 35px;" src="assets/plus.png" alt="addTagButton">
         </div>
         <div class="col d-grid input-group-lg">
             <button (click)="onUpload()" class="btn btn-block btn-success">Upload</button>

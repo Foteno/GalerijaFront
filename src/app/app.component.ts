@@ -25,12 +25,12 @@ export class AppComponent implements OnInit {
 
       this.username = user.username;
     } else {
-      this.router.navigate(["login"]);
+      this.router.navigate(['login']);
     }
   }
   logout(): void {
     this.tokenStorageService.signOut();
-    window.location.reload();
+    this.router.navigate(['login']);
   }
 
   title = 'galerija';

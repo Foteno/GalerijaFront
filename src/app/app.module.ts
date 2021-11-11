@@ -8,25 +8,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UploadComponent } from './upload/upload.component';
 import { ImageDetailsComponent } from './image-details/image-details.component';
 import { FormsModule } from '@angular/forms';
 import { authInterceptorProviders } from './_helpers/auth-interceptor';
 import { LoginComponent } from './login/login.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SharedModuleModule } from './shared-module/shared-module.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     GalleryComponent,
-    UploadComponent,
     ImageDetailsComponent,
-    LoginComponent,
-    ProfileComponent
+    LoginComponent
   ],
   imports: [
-    SharedModuleModule,
     BrowserModule,
     MatPaginatorModule,
     HttpClientModule,

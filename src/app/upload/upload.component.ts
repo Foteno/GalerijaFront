@@ -7,28 +7,30 @@ import { GalleryService } from '../gallery.service';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
-  
-  file: File = new File([""], "");
-  name: string = "";
-  date: string = "";
-  description: string = "";
-  array: Array<{name: ""}> = new Array<{name: ""}>();//original way of doing ngmodel twoway binding
+
+  file: File = new File([''], '');
+  name: string = '';
+  date: string = '';
+  description: string = '';
+  array: Array<{name: ''}> = new Array<{name: ''}>();//original way of doing ngmodel twoway binding
   constructor(
     private galleryService: GalleryService
   ) { }
 
-  onChange(event: any) {
+  onFileChoice(event: any) {
     this.file = event.target.files[0];
     this.name = this.file.name;
-    this.date = (new Date(this.file.lastModified)).toLocaleDateString('lt-LT', {year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute:'numeric', second:'numeric'});
+    /*this.date = (new Date(this.file.lastModified)).toLocaleDateString('lt-LT', {year: 'numeric',
+      month: '2-digit', day: '2-digit', hour: 'numeric', minute:'numeric', second:'numeric'});*/
+    this.date = (new Date(this.file.lastModified)).toISOString();
   }
 
   addTag(): void {
-    this.array.push({name: ""});
+    this.array.push({name: ''});
   }
 
   onUpload() {
-    if (this.file.name != "") {
+    if (this.file.name != '') {
       let tagNames = new Array<string>();
       this.array.forEach((element: {name: string}) => {
         tagNames.push(element.name);
@@ -38,7 +40,7 @@ export class UploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.array.push({name: ""});
+    this.array.push({name: ''});
   }
 
 }
